@@ -1,2 +1,2 @@
-# dotfiles
-My own dotfiles, nothing special
+Manual things to do:
+ * Install evil

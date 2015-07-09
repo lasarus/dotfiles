@@ -1,0 +1,6 @@
+[submodule ".emacs.d/haskell-mode"]
+	path = .emacs.d/haskell-mode
+	url = https://github.com/haskell/haskell-mode.git
+[submodule ".emacs.d/rainbow-delimiters"]
+	path = .emacs.d/rainbow-delimiters
+	url = https://github.com/Fanael/rainbow-delimiters.git
