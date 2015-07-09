@@ -45,7 +45,7 @@
 ;; (lookup-key (current-global-map) (kbd "C-u"))
 ;; minibuffer-keyboard-quit
 
-(defun put-the-date ()
+(defun get-scratch-message ()
   (shell-command-to-string "fortune | cowsay;date"))
 
 (defun comment-string ()
