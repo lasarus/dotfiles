@@ -50,7 +50,7 @@
 
 (defun comment-string ()
   (mapconcat (lambda (arg) (concat ";; " arg))
-	     (split-string (put-the-date) "\n") "\n"))
+	     (split-string (get-scratch-message) "\n") "\n"))
 
 (setq initial-scratch-message (concat (comment-string) "\n"))
 
