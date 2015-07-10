@@ -23,6 +23,9 @@
 (evil-mode 1)
 (setq inhibit-startup-message t)
 
+;; Keybinding for up
+(global-set-key (kbd "C-u") 'evil-scroll-up)
+
 ;; Keychords
 (require 'key-chord)
 (key-chord-mode 1)
@@ -53,6 +56,9 @@
 	     (split-string (get-scratch-message) "\n") "\n"))
 
 (setq initial-scratch-message (concat (comment-string) "\n"))
+
+;; Font
+(set-face-attribute 'default nil :font "terminus")
 
 ;; -- Languages
 ;; Haskell
