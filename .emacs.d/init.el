@@ -16,6 +16,8 @@
 (evil-leader/set-key "b" 'switch-to-buffer)
 (evil-leader/set-key "s" 'save-buffer)
 (evil-leader/set-key "q" 'save-buffers-kill-terminal)
+(evil-leader/set-key "k" 'jump-to-register)
+(evil-leader/set-key "r" 'window-configuration-to-register)
 (evil-leader/set-leader "<SPC>")
 
 ;; Evil
@@ -34,6 +36,7 @@
 (toggle-scroll-bar -1)
 
 ;; Make escape able to replace C-g
+;; Doesn't work for some reason
 (define-key evil-normal-state-map [escape] 'keyboard-quit)
 (define-key evil-visual-state-map [escape] 'keyboard-quit)
 (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
@@ -42,11 +45,13 @@
 (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 
-;; (lookup-key (current-global-map) (kbd "C-u"))
-;; minibuffer-keyboard-quit
+;; (lookup-key (current-global-map) (kbd "C-x r j"))
+;; jump-to-register
+;; window-configuration-to-register
 
+;;  Scratch message
 (defun get-scratch-message ()
-  (shell-command-to-string "fortune | cowsay;date"))
+  (shell-command-to-string "fortune | cowsay;date;acpi"))
 
 (defun comment-string ()
   (mapconcat (lambda (arg) (concat ";; " arg))
