@@ -25,6 +25,9 @@
 (evil-mode 1)
 (setq inhibit-startup-message t)
 
+;; Keybinding for up
+(global-set-key (kbd "C-u") 'evil-scroll-up)
+
 ;; Keychords
 (require 'key-chord)
 (key-chord-mode 1)
@@ -59,7 +62,14 @@
 
 (setq initial-scratch-message (concat (comment-string) "\n"))
 
+;; Font
+(set-face-attribute 'default nil :font "terminus")
+
 ;; -- Languages
 ;; Haskell
 (require 'haskell-mode-autoloads)
 (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+
+;; Theming
+(add-to-list 'custom-theme-load-path "~/.emacs.d/zenburn-emacs")
+(load-theme 'zenburn t)

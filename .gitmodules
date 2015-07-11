@@ -4,3 +4,6 @@
 [submodule ".emacs.d/rainbow-delimiters"]
 	path = .emacs.d/rainbow-delimiters
 	url = https://github.com/Fanael/rainbow-delimiters.git
+[submodule ".emacs.d/zenburn-emacs"]
+	path = .emacs.d/zenburn-emacs
+	url = https://github.com/bbatsov/zenburn-emacs.git
