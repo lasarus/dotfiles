@@ -65,6 +65,9 @@
 ;; Font
 (set-face-attribute 'default nil :font "terminus")
 
+;; Eval and replace last sex
+(+ 4 5)
+
 ;; -- Languages
 ;; Haskell
 (require 'haskell-mode-autoloads)
@@ -73,3 +76,6 @@
 ;; Theming
 (add-to-list 'custom-theme-load-path "~/.emacs.d/zenburn-emacs")
 (load-theme 'zenburn t)
+
+;; Backup fix
+(setq backup-directory-alist `(("." . "~/.saves")))
