@@ -18,6 +18,7 @@
 (evil-leader/set-key "q" 'save-buffers-kill-terminal)
 (evil-leader/set-key "k" 'jump-to-register)
 (evil-leader/set-key "r" 'window-configuration-to-register)
+(evil-leader/set-key "c" 'comment-region)
 (evil-leader/set-leader "<SPC>")
 
 ;; Evil
@@ -65,13 +66,10 @@
 ;; Font
 (set-face-attribute 'default nil :font "terminus")
 
-;; Eval and replace last sex
-(+ 4 5)
-
 ;; -- Languages
 ;; Haskell
-(require 'haskell-mode-autoloads)
-(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+;; (require 'haskell-mode-autoloads)
+;; (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
 
 ;; Theming
 (add-to-list 'custom-theme-load-path "~/.emacs.d/zenburn-emacs")
