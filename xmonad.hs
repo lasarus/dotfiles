@@ -22,6 +22,7 @@ myManageHook = composeAll
     , isFullscreen --> doFloat
     ]
 
+-- layout = smartBorders $ {- gaps [(U, 16)] -} tiled ||| Mirror tiled ||| noBorders Full ||| (gaps [(U, 16), (R, 16), (L, 16), (D, 16)] $ mouseResizableTile)
 layout = smartBorders $ {- gaps [(U, 16)] -} tiled ||| Mirror tiled ||| noBorders Full ||| (gaps [(U, 16), (R, 16), (L, 16), (D, 16)] $ mouseResizableTile)
   where
      -- default tiling algorithm partitions the screen into two panes
@@ -49,6 +50,7 @@ main = do
 	-- , isFullscreen -?> doFullFloat
 	-- , className =? "Xmessage"  --> doFloat
         } `additionalKeys`
-        [ ((controlMask, xK_Print), spawn "sleep 0.2; /home/lucas/.scripts/screenshot.sh")
-        , ((0, xK_Print), spawn "sleep 0.2; /home/lucas/.scripts/screenshot.sh")
+        [
+         ((mod4Mask, xK_s), spawn "setxkbmap se"),
+         ((mod4Mask, xK_u), spawn "setxkbmap us")
         ]

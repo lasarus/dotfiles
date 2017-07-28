@@ -48,8 +48,8 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
-#xrandr --output HDMI-0 --pos 0x0
-#xrandr --output DVI-I-0 --pos 1920x0
+xrandr --output DP-1 --pos 0x0
+xrandr --output DVI-I-0 --pos 1920x0
 xsetroot -cursor_name left_ptr
 
 feh --bg-fill Wallpaper.jpg
