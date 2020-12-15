@@ -12,7 +12,7 @@
 (add-to-list 'load-path "~/.emacs.d/evil")
 (add-to-list 'load-path "~/.emacs.d/misc")
 (add-to-list 'load-path "~/.emacs.d/rainbow-delimiters")
-(add-to-list 'load-path "~/.emacs.d/haskell-mode")
+;;(add-to-list 'load-path "~/.emacs.d/haskell-mode")
 
 ;; Rainbow delimiters
 (require 'rainbow-delimiters)
@@ -27,7 +27,7 @@
 (evil-leader/set-key "s" 'save-buffer)
 (evil-leader/set-key "q" 'save-buffers-kill-terminal)
 (evil-leader/set-key "k" 'jump-to-register)
-(evil-leader/set-key "r" 'window-configuration-to-register)
+(evil-leader/set-key "r" 'recompile)
 (evil-leader/set-key "c" 'comment-region)
 (evil-leader/set-leader "<SPC>")
 
@@ -78,8 +78,8 @@
 
 ;; -- Languages
 ;; Haskell
-(require 'haskell-mode-autoloads)
-(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+;; (require 'haskell-mode-autoloads)
+;; (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
 
 ;; Theming
 ;; (add-to-list 'custom-theme-load-path "~/.emacs.d/zenburn-emacs")
@@ -135,3 +135,8 @@
 ;; Configuration for irony
 (add-hook 'c++-mode-hook 'irony-mode)
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+
+(setq-default c-basic-offset 4
+	      tab-width 4
+	      indent-tabs-mode t
+	      c-default-style "linux")
