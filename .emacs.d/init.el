@@ -27,6 +27,7 @@
 (evil-leader/set-key "s" 'save-buffer)
 (evil-leader/set-key "q" 'save-buffers-kill-terminal)
 (evil-leader/set-key "k" 'jump-to-register)
+(evil-leader/set-key "n" 'next-error)
 (evil-leader/set-key "r" 'recompile)
 (evil-leader/set-key "c" 'comment-region)
 (evil-leader/set-leader "<SPC>")
