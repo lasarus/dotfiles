@@ -48,16 +48,20 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
-xrandr --output DP-1 --pos 0x0
-xrandr --output DVI-I-0 --pos 1920x0
+# xrandr --output DP-1 --pos 0x0
+# xrandr --output DVI-I-0 --pos 1920x0
 xsetroot -cursor_name left_ptr
 
-feh --bg-fill Wallpaper.jpg
+#feh --bg-fill Wallpaper.jpg
 
 session=${1:-xmonad}
+# session=${1:-dwm}
+# session=${1:-emacs}
 
 case $session in
     xmonad) exec xmonad ;;
     xfce) exec startxfce4 ;;
+    emacs) EXWM=1 exec emacs ;;
+    dwm) exec .dotfiles/dwm/dwm-6.2/dwm ;;
     *) exec $1 ;;
 esac

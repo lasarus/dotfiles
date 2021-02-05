@@ -14,16 +14,21 @@ import XMonad.Actions.MouseGestures
 import XMonad.Layout.MouseResizableTile
 import XMonad.Layout.Gaps
 import XMonad.Layout.Spacing
+import XMonad.Layout.SubLayouts
+import XMonad.Layout.WindowNavigation
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.InsertPosition
 
 myManageHook = composeAll
     [
     className =? "Zenity" --> doFloat
+    , className =? "boltzmann" --> insertPosition Below Older
     , isFullscreen --> doFloat
     ]
 
 -- layout = smartBorders $ {- gaps [(U, 16)] -} tiled ||| Mirror tiled ||| noBorders Full ||| (gaps [(U, 16), (R, 16), (L, 16), (D, 16)] $ mouseResizableTile)
-layout = smartBorders $ {- gaps [(U, 16)] -} tiled ||| Mirror tiled ||| noBorders Full ||| (gaps [(U, 16), (R, 16), (L, 16), (D, 16)] $ mouseResizableTile)
+-- layout = smartBorders $ tiled ||| Mirror tiled ||| noBorders Full ||| (gaps [(U, 16), (R, 16), (L, 16), (D, 16)] $ mouseResizableTile)
+layout = smartBorders tiled ||| noBorders Full
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -38,10 +43,9 @@ layout = smartBorders $ {- gaps [(U, 16)] -} tiled ||| Mirror tiled ||| noBorder
      delta   = 3/100
 
 main = do
-    xmonad $ defaultConfig
+    xmonad $ def
         {
-	manageHook = manageDocks <+> myManageHook
-			<+> manageHook defaultConfig
+	manageHook =  manageDocks <+> myManageHook
 	, terminal = "urxvt"
         , modMask = mod4Mask
         , borderWidth = 1

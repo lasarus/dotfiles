@@ -1,18 +1,26 @@
 ;; Search paths
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
+;; (require 'exwm)
+;; (require 'exwm-config)
+;; (exwm-config-default)
+
+(setq gc-cons-threshold 800000000)
+
+(add-to-list 'load-path "~/.emacs.d/exwm")
+(add-to-list 'load-path "~/.emacs.d/xelb")
+;; (add-to-list 'load-path "~/.emacs.d")
+
+
+(when (getenv "EXWM")
+  (require 'exwm)
+  ;;(require 'exwm-config)
+  (load-file "~/.emacs.d/init-exwm.el")
+  (exwm-config-default))
+  ;;(exwm-init))
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-
-(add-to-list 'load-path "~/.emacs.d/evil")
-(add-to-list 'load-path "~/.emacs.d/misc")
-(add-to-list 'load-path "~/.emacs.d/rainbow-delimiters")
-;;(add-to-list 'load-path "~/.emacs.d/haskell-mode")
+(package-initialize)
 
 ;; Rainbow delimiters
 (require 'rainbow-delimiters)
@@ -22,14 +30,15 @@
 ;; Leader, must come before evil
 (require 'evil-leader)
 (global-evil-leader-mode)
-(evil-leader/set-key "e" 'find-file)
-(evil-leader/set-key "b" 'switch-to-buffer)
-(evil-leader/set-key "s" 'save-buffer)
-(evil-leader/set-key "q" 'save-buffers-kill-terminal)
-(evil-leader/set-key "k" 'jump-to-register)
-(evil-leader/set-key "n" 'next-error)
-(evil-leader/set-key "r" 'recompile)
-(evil-leader/set-key "c" 'comment-region)
+(evil-leader/set-key "e" 'find-file
+  "b" 'switch-to-buffer
+  "s" 'save-buffer
+  "q" 'save-buffers-kill-terminal
+  "k" 'jump-to-register
+  "n" 'next-error
+  "r" 'recompile
+  "c" 'comment-region
+  "d" 'xref-find-definitions)
 (evil-leader/set-leader "<SPC>")
 
 ;; Evil
@@ -49,6 +58,7 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
+(fringe-mode 0)
 
 ;; Make escape able to replace C-g
 ;; Doesn't work for some reason
@@ -74,24 +84,13 @@
 
 (setq initial-scratch-message (concat (comment-string) "\n"))
 
-;; Font
-;;(set-face-attribute 'default nil :font "terminus")
-
-;; -- Languages
-;; Haskell
-;; (require 'haskell-mode-autoloads)
-;; (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
-
-;; Theming
-;; (add-to-list 'custom-theme-load-path "~/.emacs.d/zenburn-emacs")
-;; (load-theme 'zenburn t)
-
 ;; Backup fix
 (setq backup-directory-alist `(("." . "~/.saves")))
 
 
 ;; Load .h files in c++ mode, should make it only temporary but I haven't bothered yet
-(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+;; (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c-mode))
 
 ;; TeX count
 (defun latex-word-count ()
@@ -125,7 +124,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (irony))))
+ '(package-selected-packages
+   '(pdf-tools exwm-mff exwm cmake-mode rmsbolt org-download company-lsp ccls lsp-mode haskell-mode irony))
+ '(warning-suppress-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -141,3 +142,90 @@
 	      tab-width 4
 	      indent-tabs-mode t
 	      c-default-style "linux")
+
+;; LSP config
+(put 'upcase-region 'disabled nil)
+(use-package lsp-mode :commands lsp)
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package company-lsp :commands company-lsp)
+
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+         (lambda () (require 'ccls) (lsp))))
+
+(setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t)))
+(setq company-transformers nil company-lsp-async t company-lsp-cache-candidates nil)
+
+(setq lsp-enable-on-type-formatting nil)
+(setq-local indent-region-function nil) 
+(setq lsp-enable-indentation nil)
+
+(eval-after-load 'org
+  '(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0)))
+
+(load-theme 'zenburn t)
+(setq org-startup-with-inline-images t)
+
+(defun screenshot-insert ()
+  (interactive)
+  (let ((name (concat "image_" (md5 (mapconcat 'number-to-string (current-time) "")) ".png")))
+	(shell-command (concat "scrot -s " name))
+	(insert (concat "[[./" name "]]"))
+	(org-display-inline-images t t)
+			))
+
+(evil-leader/set-key-for-mode 'org-mode
+  "w" 'screenshot-insert
+  "l" 'org-latex-preview
+  "i" 'org-toggle-inline-images)
+
+(add-hook 'prog-mode-hook
+		  (lambda ()
+			'display-line-numbers-mode
+			(setq display-line-numbers 'relative)))
+
+
+(add-hook 'prog-mode-hook
+		  (lambda ()
+			'display-line-numbers-mode
+			(setq display-line-numbers 'relative)))
+
+;; rmsbolt things.
+(setq rmsbolt-asm-format "att")
+; (add-hook 'c-mode-hook
+		  ; (lambda ()
+			; (setq rmsbolt-command "gcc -O3")
+			; ))
+
+(defun toggle-rmsbolt ()
+  (interactive)
+  (if (and (boundp 'rmsbolt-mode) rmsbolt-mode)
+	  (rmsbolt-mode -1)
+	(progn
+	  (rmsbolt-mode)
+	  (rmsbolt-compile))))
+	
+(evil-leader/set-key-for-mode 'c-mode
+  "g" 'toggle-rmsbolt
+  )
+
+(evil-leader/set-key-for-mode 'c++-mode
+  "g" 'toggle-rmsbolt
+  )
+
+(setq evil-leader/in-all-states t)
+
+
+;; (member 'rmsbolt-mode 'test)
+
+(global-set-key (kbd "C-x n")
+				(lambda ()
+				  (interactive)
+				  (enlarge-window-horizontally 4)))
+
+;; Compilation colors
+(require 'xterm-color)
+(setq compilation-environment '("TERM=xterm-256color"))
+(defun my/advice-compilation-filter (f proc string)
+  (funcall f proc (xterm-color-filter string)))
+(advice-add 'compilation-filter :around #'my/advice-compilation-filter)
